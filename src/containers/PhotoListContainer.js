@@ -10,16 +10,17 @@ function PhotoListContainer() {
     dispatch(fetchPhotos());
   }, [dispatch]);
 
-  const { photos, loading } = useSelector(
+  const { category, allPhotos, loading } = useSelector(
     state => ({
-      photos:
-        state.category.category === 'all'
-          ? state.photos.data
-          : state.photos.data.filter(photo => photo.category === state.category.category),
+      category: state.category.category,
+      allPhotos: state.photos.data,
       loading: state.photos.loading,
     }),
     shallowEqual
   );
+
+  const photos =
+    category === 'all' ? allPhotos : allPhotos.filter(photo => photo.category === category);
 
   if (loading === 'error') {
     return <span>Error!</span>;
